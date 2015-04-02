@@ -53,10 +53,14 @@ window.countNRooksSolutions = function(n) {
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
 window.findNQueensSolution = function(n) {
+  if (n === 0) return [];
   result = window.countNQueensSolutions(n,true);
-  if (result === 1) {
-    return [1];
+
+  if (result < 1) {
+    printMatrix(makeEmptyMatrix(n));
+    return makeEmptyMatrix(n);
   }
+  return result;
 };
 
 
@@ -65,9 +69,11 @@ window.countNQueensSolutions = function(n, firstSol) {
   if (n === 0) {
     return 1;
   }
-var n = n || 3;
+  var n = n;
   var solutionCount = 0;
-
+  var martixContainer;
+  var gotFirstMatrix = false;
+  var firstSol =  firstSol || false;
   var board = new Board(window.makeEmptyMatrix(n));
 
   var recursive = function(board , row) {
@@ -77,10 +83,10 @@ var n = n || 3;
 
         if(row === n-1) {
           solutionCount++;
-          if (firstSol) {
-            return board.rows();
+          if (firstSol && !gotFirstMatrix) {
+            matrixContainer = window.copyMatrix(board.rows());
+            gotFirstMatrix = true;
           }
-          //window.printMatrix(board.rows());
         }
         else {
          recursive(board,row+1);
@@ -90,6 +96,10 @@ var n = n || 3;
     }
   };
   recursive(board,0);
+
+  if (firstSol && gotFirstMatrix) {
+      return matrixContainer;
+  }
   return solutionCount;
 };
 
@@ -107,5 +117,16 @@ window.printMatrix = function(matrix){
     console.log(matrix[i].toString());
   }
   console.log('end matrix');
-}
+};
 
+window.copyMatrix = function(matrix){
+  var newMatrix = [];
+  for(var i = 0;i < matrix.length; i++){
+    var row = [];
+    for(var j = 0;j < matrix.length; j++){
+      row.push(matrix[i][j]);
+    }
+    newMatrix.push(row);
+  }
+  return newMatrix;
+};
