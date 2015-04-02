@@ -23,7 +23,7 @@ describe('solvers', function() {
   describe('countNRooksSolutions()', function() {
 
     it('finds the number of valid solutions for n of 1-8', function() {
-      _.range(1, 9).map(function(n) {
+      _.range(1,9).map(function(n) {
         var solutionCount = countNRooksSolutions(n);
         var expectedSolutionCount = [1, 1, 2, 6, 24, 120, 720, 5040, 40320][n];
 
@@ -67,12 +67,13 @@ describe('solvers', function() {
   });
 
   describe('countNQueensSolutions()', function() {
+    var solutionDictionary = [];
 
     it('finds the number of valid solutions for n of 0-8', function() {
       _.range(0, 9).map(function(n) {
         var solutionCount = countNQueensSolutions(n);
         var expectedSolutionCount = [1, 1, 0, 0, 2, 10, 4, 40, 92][n];
-
+        console.log('n:',n,'ours:',solutionCount,'theres:',expectedSolutionCount);
         expect(solutionCount).to.be.equal(expectedSolutionCount);
       });
     });
